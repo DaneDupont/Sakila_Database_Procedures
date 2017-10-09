@@ -1,0 +1,6 @@
+BEGIN
+ DECLARE f_id INT;
+ SELECT MAX(film_id) into f_id
+ FROM film;
+ RETURN f_id;
+END
