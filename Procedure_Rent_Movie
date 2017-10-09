@@ -1,0 +1,13 @@
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Rental_Made`(IN `Customer ID` SMALLINT(5), IN `Staff ID` TINYINT(3), IN `Payment Amount` DECIMAL(5,2), IN `Inventory ID` MEDIUMINT(8))
+BEGIN
+
+INSERT INTO rental (rental.rental_date, rental.inventory_id, rental.customer_id, rental.return_date, rental.staff_id, rental.last_update) 
+   VALUES (CURRENT_TIMESTAMP, @p3, @p0, CURDATE() + INTERVAL 3 DAY, @p1, CURRENT_TIMESTAMP);
+
+INSERT INTO payment (payment.customer_id, payment.staff_id, payment.rental_id, payment.amount, payment.payment_date, payment.last_update)
+   VALUES (@p0, @p1, Get_Last_Rental(), @p2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+COMMIT;
+END$$
+DELIMITER ;

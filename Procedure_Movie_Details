@@ -1,0 +1,14 @@
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Movie_Search`(IN `Film ID` TINYINT(5))
+SELECT film.title, film.description, film.release_year, film.rental_duration, film.rental_rate, film.length, film.replacement_cost, film.rating, film.special_features, category.name AS cat_name,  languages.name AS lang_name, actor.first_name, actor.last_name
+FROM film
+INNER JOIN film_category ON film.film_id = film_category.film_id
+INNER JOIN category ON film_category.category_id = category.category_id
+INNER JOIN languages ON film.language_id = languages.language_id
+INNER JOIN film_actor ON film.film_id = film_actor.film_id 
+INNER JOIN actor ON film_actor.actor_id = actor.actor_id 
+
+WHERE film.film_id = @p0
+LIMIT 1
+-- Limit used to constrict multiple actors in the movie, creating duplicates$$
+DELIMITER ;
