@@ -1,0 +1,10 @@
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Staff_Search`(IN `staff_id` INT(2))
+    NO SQL
+BEGIN
+SELECT staff.first_name, staff.last_name, staff.staff_id, staff.address_id, staff.email, address.address, address.address2 
+FROM (staff 
+INNER JOIN address ON address.address_id = staff.address_id)
+WHERE staff.staff_id=@p0;
+END$$
+DELIMITER ;
