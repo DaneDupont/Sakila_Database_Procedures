@@ -1,0 +1,22 @@
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Add_Movie`(IN `Title` VARCHAR(255), IN `Description` TEXT, IN `Release Year` YEAR(4), IN `Language ID` TINYINT(3), IN `Rental Duration` TINYINT(3), IN `Rental Rate` DECIMAL(4,2), IN `Lenght` SMALLINT(5), IN `Replacement Cost` DECIMAL(5,2), IN `Rating` ENUM('R','PG-13','PG','G'), IN `Special Features` SET('Trailers','Deleted Scenes','Commentary',''), IN `Category ID` SMALLINT(5), IN `Store ID` TINYINT(3), IN `Actor ID` SMALLINT(5))
+BEGIN
+
+INSERT INTO film (film.title, film.description, film.release_year, film.language_id, film.rental_duration, film.rental_rate, film.length, film.replacement_cost, film.rating, film.special_features, film.last_update) 
+   VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, CURRENT_TIMESTAMP);
+   
+INSERT INTO film_category (film_category.film_id, film_category.category_id, film_category.last_update)
+   VALUES (Get_Last_Film_Added(), @p10, CURRENT_TIMESTAMP);
+   
+INSERT INTO film_actor (film_actor.actor_id, film_actor.film_id, film_actor.last_update)
+   VALUES (@p12, Get_Last_Film_Added(), CURRENT_TIMESTAMP);
+
+INSERT INTO inventory (inventory.film_id, inventory.store_id, inventory.last_update)
+   VALUES (Get_Last_Film_Added(), @p11, CURRENT_TIMESTAMP);
+
+INSERT INTO film_text (film_text.title, film_text.description)
+   VALUES (@p0, @p1);   
+
+COMMIT;
+END$$
+DELIMITER ;
