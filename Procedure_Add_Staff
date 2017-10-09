@@ -1,0 +1,9 @@
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Add_Staff`(IN `First name` VARCHAR(45), IN `Last name` VARCHAR(45), IN `address ID` SMALLINT(5), IN `email` VARCHAR(50), IN `store ID` TINYINT(3), IN `picture` BLOB, IN `Active` TINYINT(1), IN `username` VARCHAR(16), IN `password` VARCHAR(40))
+    MODIFIES SQL DATA
+    DETERMINISTIC
+BEGIN
+INSERT INTO staff (staff.first_name, staff.last_name, staff.address_id, staff.email, staff.store_id, staff.picture, staff.active, staff.username, staff.password, staff.last_update)
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, SHA1(@p8), CURRENT_TIMESTAMP);
+END$$
+DELIMITER ;
