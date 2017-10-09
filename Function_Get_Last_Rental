@@ -1,0 +1,6 @@
+BEGIN
+ DECLARE r_id INT;
+ SELECT MAX(rental_id) into r_id
+ FROM rental ;
+ RETURN r_id;
+END
